@@ -11,6 +11,13 @@ const fs = require('fs');
 
 initDatabase();
 
+// Ensure the database is seeded if it's empty (e.g. first run or fresh deployment)
+const qCount = db.prepare('SELECT COUNT(*) as count FROM questions').get();
+if (!qCount || qCount.count === 0) {
+  console.log('Database questions empty. Running initial seed...');
+  seedAll();
+}
+
 const app = express();
 const server = http.createServer(app);
 const wss = new WebSocketServer({ server });

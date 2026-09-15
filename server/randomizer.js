@@ -75,8 +75,13 @@ function generateParticipantQuestions(participantId) {
   if (r1SelectedQuestions.length < 10) {
     const remainingCount = 10 - r1SelectedQuestions.length;
     const existingIds = r1SelectedQuestions.map(q => q.id);
-    const placeholders = existingIds.map(() => '?').join(',');
-    const extra = db.prepare(`SELECT * FROM questions WHERE round_id = 1 AND id NOT IN (${placeholders}) LIMIT ?`).all(...existingIds, remainingCount);
+    let extra = [];
+    if (existingIds.length > 0) {
+      const placeholders = existingIds.map(() => '?').join(',');
+      extra = db.prepare(`SELECT * FROM questions WHERE round_id = 1 AND id NOT IN (${placeholders}) LIMIT ?`).all(...existingIds, remainingCount);
+    } else {
+      extra = db.prepare(`SELECT * FROM questions WHERE round_id = 1 LIMIT ?`).all(remainingCount);
+    }
     r1SelectedQuestions.push(...extra);
   }
 
@@ -103,8 +108,13 @@ function generateParticipantQuestions(participantId) {
   if (r2SelectedQuestions.length < 8) {
     const remainingCount = 8 - r2SelectedQuestions.length;
     const existingIds = r2SelectedQuestions.map(q => q.id);
-    const placeholders = existingIds.map(() => '?').join(',');
-    const extra = db.prepare(`SELECT * FROM questions WHERE round_id = 2 AND id NOT IN (${placeholders}) LIMIT ?`).all(...existingIds, remainingCount);
+    let extra = [];
+    if (existingIds.length > 0) {
+      const placeholders = existingIds.map(() => '?').join(',');
+      extra = db.prepare(`SELECT * FROM questions WHERE round_id = 2 AND id NOT IN (${placeholders}) LIMIT ?`).all(...existingIds, remainingCount);
+    } else {
+      extra = db.prepare(`SELECT * FROM questions WHERE round_id = 2 LIMIT ?`).all(remainingCount);
+    }
     r2SelectedQuestions.push(...extra);
   }
 
@@ -128,8 +138,13 @@ function generateParticipantQuestions(participantId) {
   if (r3SelectedQuestions.length < 8) {
     const remainingCount = 8 - r3SelectedQuestions.length;
     const existingIds = r3SelectedQuestions.map(q => q.id);
-    const placeholders = existingIds.map(() => '?').join(',');
-    const extra = db.prepare(`SELECT * FROM questions WHERE round_id = 3 AND id NOT IN (${placeholders}) LIMIT ?`).all(...existingIds, remainingCount);
+    let extra = [];
+    if (existingIds.length > 0) {
+      const placeholders = existingIds.map(() => '?').join(',');
+      extra = db.prepare(`SELECT * FROM questions WHERE round_id = 3 AND id NOT IN (${placeholders}) LIMIT ?`).all(...existingIds, remainingCount);
+    } else {
+      extra = db.prepare(`SELECT * FROM questions WHERE round_id = 3 LIMIT ?`).all(remainingCount);
+    }
     r3SelectedQuestions.push(...extra);
   }
 
