@@ -1,7 +1,7 @@
 const { DatabaseSync } = require('node:sqlite');
 const path = require('node:path');
 
-const dbPath = path.join(__dirname, 'death_code.sqlite');
+const dbPath = process.env.DATABASE_PATH || path.join(__dirname, 'death_code.sqlite');
 const db = new DatabaseSync(dbPath);
 
 // Enable WAL mode, busy_timeout, and normal sync to avoid database locks

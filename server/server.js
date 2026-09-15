@@ -18,6 +18,11 @@ const wss = new WebSocketServer({ server });
 app.use(cors());
 app.use(express.json());
 
+// Healthcheck endpoint for Railway & monitoring services
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'ok', service: 'death-code-kira-protocol', timestamp: new Date().toISOString() });
+});
+
 // Serve static client bundle if built (no-cache enabled to prevent stale bundles)
 const clientDistPath = path.join(__dirname, '..', 'client', 'dist');
 if (fs.existsSync(clientDistPath)) {
